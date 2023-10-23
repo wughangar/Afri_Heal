@@ -4,5 +4,5 @@
 initialize the package
 """
 from models.engine.db_config import DbConfig
-storage = DbConfig
+storage = DbConfig()
 storage.reload()
