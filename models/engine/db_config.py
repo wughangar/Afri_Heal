@@ -29,7 +29,7 @@ class DbConfig:
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://saisa:saisa_dev_pwd@localhost/afriheal')
+        self.__engine = create_engine('mysql+mysqldb://saisa:saisa_dev@localhost/afriheal')
         print("Initializing database engine ...")
 
 
