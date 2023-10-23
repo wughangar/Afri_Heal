@@ -17,6 +17,7 @@ class TestDbConfig(unittest.TestCase):
 
 def test_table_creation(self):
     # Test if the tables are created properly
+    print("Testing table creation ...")
     insp = sqlalchemy.inspect(self.db_config._DbConfig__engine)
     table_names = insp.get_table_names()
     print("All Tables in Database:", table_names)  # Add this line for debugging

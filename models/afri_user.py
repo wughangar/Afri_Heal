@@ -6,6 +6,9 @@ User model
 from sqlalchemy import Column, String, Integer
 from models.base_model import BaseModel
 from hashlib import md5
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base(cls=BaseModel)
 
 
 class User(BaseModel):

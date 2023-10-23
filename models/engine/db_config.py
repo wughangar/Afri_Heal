@@ -15,6 +15,9 @@ from models.base_model import BaseModel, Base
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base(cls=BaseModel)
 
 classes = {
     "User": User, "Patient": Patient, "Therapist": Therapist, "Booking": Booking,
@@ -26,7 +29,7 @@ class DbConfig:
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://root:Saisa#Root@localhost/afriheal')
+        self.__engine = create_engine('mysql+mysqldb://saisa:saisa_dev_pwd@localhost/afriheal')
         print("Initializing database engine ...")
 
 
