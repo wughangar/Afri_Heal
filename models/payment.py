@@ -3,7 +3,7 @@
 Payment model
 """ 
     
-from sqlalchemy import Column, String, DateTime, Double, Boolean
+from sqlalchemy import Column, String, DateTime, Boolean, Float
 from models.base_model import BaseModel
 
 
@@ -11,7 +11,7 @@ class Payment(BaseModel):
     patient_id = Column(String(60))
     therapist_id = Column(String(60))
     session_id = Column(String(60))
-    amount = Column(Double)
+    amount = Column(Float)
     date = Column(DateTime)
     status = Column(Boolean)
 
