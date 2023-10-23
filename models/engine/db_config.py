@@ -26,7 +26,8 @@ class DbConfig:
     __session = None
 
     def __init__(self):
-        self.__engine = create_engine('mysql+mysqldb://root:SaisaRoot@localhost/afriheal')
+        print("Initializing database engine ...")
+        self.__engine = create_engine('mysql+mysqldb://root:Saisa#Root@localhost/afriheal')
 
     def all(self, cls=None):
         """
@@ -63,6 +64,7 @@ class DbConfig:
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
+        print("table created successully")
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session
