@@ -1,5 +1,6 @@
 import unittest
 from models.engine.db_config import DbConfig
+import sqlalchemy
 
 class TestDbConfig(unittest.TestCase):
 
@@ -16,7 +17,8 @@ class TestDbConfig(unittest.TestCase):
 
     def test_table_creation(self):
         # Test if the tables are created properly
-        user_table_exists = self.db_config._DbConfig__engine.dialect.has_table(self.db_config._DbConfig__engine, "users")
+        insp = sqlalchemy.inspect(self.db_config._DbConfig__engine)
+        user_table_exists = insp.has_table("users")
         self.assertTrue(user_table_exists)
 
     # Add more test cases for other methods in DbConfig class if needed
