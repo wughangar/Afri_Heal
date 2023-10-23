@@ -12,7 +12,6 @@ from models.category import Category
 from models.review import Review
 from models.payment import Payment
 from models.base_model import BaseModel, Base
-from models import storage
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -72,6 +71,7 @@ class DbConfig:
         self.__session.remove()
 
     def get(self, cls, id):
+        from models import storage
         """
         Returns the object bsed on the class name and its id
         returns None id not found
@@ -86,6 +86,7 @@ class DbConfig:
         return None
     
     def count(self, cls=None):
+        from models import storage
         """
         count the number of objects in the db
         """

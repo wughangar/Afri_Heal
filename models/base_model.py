@@ -6,7 +6,6 @@ base model declaration
 import uuid
 import os
 import sys
-from models import storage
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -83,6 +82,7 @@ class BaseModel:
     
 
     def save(self):
+        from models import storage
         """
         update 'updated_at' with current time
         call storage new method to ...
@@ -94,6 +94,7 @@ class BaseModel:
 
 
     def delete(self):
+        from models import storage
         """
         delete current instance from  db
         """
