@@ -12,7 +12,7 @@ class User(BaseModel):
     __tablename__ = "users"
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
-    phone = Column(Integer(10), nullable=False, unique=True)
+    phone = Column(Integer, nullable=False, unique=True)
     email = Column(String(128),nullable=False, unique=True)
     password = Column(String(60), nullable=False)
     role = Column(String(60), nullable=False)
