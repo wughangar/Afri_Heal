@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 
 
 class Payment(BaseModel):
+    __tablename__ = "payments"
     patient_id = Column(String(60))
     therapist_id = Column(String(60))
     session_id = Column(String(60))

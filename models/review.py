@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 
 
 class Review(BaseModel):
+    __tablename__ = "reviews"
     patient_id = Column(String(60))
     therapist_id = Column(String(60))
     rating = Column(Integer)

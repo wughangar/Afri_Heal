@@ -3,15 +3,21 @@
 Therapist model
 """
 
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column, String, Boolean, ForeignKey
 from models.base_model import BaseModel
+from models.afri_user import User
+from sqlalchemy.orm import relationship
 
 
 class Therapist(BaseModel):
-    user_id = Column(String(60))
-    specialization = Column(String(128))
-    experience = Column(String(128))
-    availability = Column(Boolean())
+    __tablename__ = "therapists"
+    user_id = Column(String(60), ForeignKey('users.id'), unique=True)
+    specialization = Column(String(128), nullable=False)
+    experience = Column(String(128), nullable=False)
+    availability = Column(Boolean(), nullable=False, default=True)
+
+    user = relationship('User', back_populates='therapist')
+
 
     def __init__(self, *args, **kwargs):
         """initializes Place"""

@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 
 
 class Booking(BaseModel):
+    __tablename__ = "bookings"
     patient_id = Column(String(60))
     therapist_id = Column(String(60))
     session_id = Column(String(60))

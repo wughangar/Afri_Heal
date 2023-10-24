@@ -11,13 +11,13 @@ from models.session import Session
 from models.category import Category
 from models.review import Review
 from models.payment import Payment
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base(cls=BaseModel)
+# Base = declarative_base()
 
 classes = {
     "User": User, "Patient": Patient, "Therapist": Therapist, "Booking": Booking,

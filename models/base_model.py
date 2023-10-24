@@ -4,22 +4,23 @@ base model declaration
 """
 
 import uuid
-import os
-import sys
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+# from models.engine.db_config import Base
 
 Base = declarative_base()
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
 
-class BaseModel:
+class BaseModel(Base):
     """
     constain methods and atributes to be inherited by other models 
     """
-    id = Column(String(60), primary_key=True)
+    __abstract__ = True  # This ensures this class is not mapped to a database table
+
+    id = Column(String(60), primary_key=True, default=str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
 
@@ -31,14 +32,16 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
-                if kwargs.get("created_at", None) and type(self.created_at) is str:
+                if kwargs.get("created_at", None) and isinstance(kwargs["created_at"], str):
                     self.created_at = datetime.strptime(kwargs["created_at"], time)
                 else:
                     self.created_at = datetime.utcnow()
-                if kwargs.get("updated_at", None) and type(self.updated_at) is str:
+
+                if kwargs.get("updated_at", None) and isinstance(kwargs["updated_at"], str):
                     self.updated_at = datetime.strptime(kwargs["updated_at"], time)
                 else:
                     self.updated_at = datetime.utcnow()
+
                 if kwargs.get("id", None) is None:
                     self.id = str(uuid.uuid4())
         else:
@@ -46,7 +49,6 @@ class BaseModel:
             self.created_at = datetime.utcnow()
             self.updated_at = self.created_at
     
-
     def __str__(self):
         """
         String representation of the base class
@@ -56,29 +58,28 @@ class BaseModel:
         """
         return"[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id, self.__dict__)
     
+    # def __dict__(self, save_fs=None):
+    #     """
+    #     convert an instance of a class into a dictionary representation
+    #     allows objects to be easily converted into a format suitable for purposes like:
+    #     storage, transmission and ensuring security
+    #     """
+    #     new_dict = self.__dict__.copy()
+    #     if "created_at" in new_dict:
+    #         new_dict["created_at"] = new_dict["created_at"].strftime(time)
+    #     if "updated_at" in new_dict:
+    #         new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+    #     new_dict["__class__"] = self.__class__.__name__
 
-    def __dict__(self, save_fs=None):
-        """
-        convert an instance of a class into a dictionary representation
-        allows objects to be easily converted into a format suitable for purposes like:
-        storage, transmission and ensuring security
-        """
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-        new_dict["__class__"] = self.__class__.__name__
+    #     # Remove sqlachemy key, not needed for serialization 
+    #     if "_sa_instance_state" in new_dict:
+    #         del new_dict["_sa_instance_state"]
 
-        # Remove sqlachemy key, not needed for serialization 
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
-
-        # Remove password before serialization to ensure security
-        if save_fs is None:
-            if "password" in new_dict:
-                del new_dict["password"]
-        return new_dict
+    #     # Remove password before serialization to ensure security
+    #     if save_fs is None:
+    #         if "password" in new_dict:
+    #             del new_dict["password"]
+    #     return new_dict
     
 
     def save(self):
