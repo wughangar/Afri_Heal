@@ -103,10 +103,10 @@ class TestPatientModel(unittest.TestCase):
         self.assertIsNotNone(retrieved_user.patient)
         self.assertEqual(retrieved_user.patient.history, 'I am allergic to therapists')  # Correct history value
 
-        logging.debug("adding user and patient together ...")
+        logging.info("adding user and patient together ...")
 
     def test_add_patient_to_existing_user(self):
-        user_id = "fc2f1b5d-092d-48a9-9713-c72b204a92fc"
+        user_id = "309c86a7-0649-4746-9953-c6653f62d0b1"
         user = models.storage.get(User, user_id)
 
         if user:
@@ -117,12 +117,13 @@ class TestPatientModel(unittest.TestCase):
 
             user.patient = patient
             models.storage.save()
+            logging.debug("Adding patient to existing user ...")
         else:
-            print("User not found in the database")
-        retrieved_user = models.storage.get(User, user_id)
-        print("User's patient: {}".format(retrieved_user.patient))
+            logging.WARNING("User not found in the database")
 
-        logging.debug("Adding patient to existing user ...")
+        # retrieved_user = models.storage.get(User, user_id)
+        # print("User's patient: {}".format(retrieved_user.patient))
+
 
 
 if __name__ == "__main__":

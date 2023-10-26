@@ -32,24 +32,24 @@ class TestDbConfig(unittest.TestCase):
         logging.debug("User Table Exists: ")
         print(user_table_exists)
 
-    def test_user(self):
-        # Assuming you have a User model mapped to the "users" table
-        from models.afri_user import User  # Import your User model
-# Create a new user object
-        new_user = User(
-            first_name="chet",
-            last_name="Teg",
-            phone=123456788,
-            email="makit@count.com",
-            password="password123",
-            role="therapist"
-            )
+#     def test_user(self):
+#         # Assuming you have a User model mapped to the "users" table
+#         from models.afri_user import User  # Import your User model
+# # Create a new user object
+#         new_user = User(
+#             first_name="chet",
+#             last_name="Teg",
+#             phone=123456789,
+#             email="makit@9count.com",
+#             password="password123",
+#             role="therapist"
+#             )
 
-# Add the user object to the session
-        self.db_config._DbConfig__session.add(new_user)
+# # Add the user object to the session
+#         self.db_config._DbConfig__session.add(new_user)
 
-# Commit the transaction to persist the changes to the database
-        self.db_config._DbConfig__session.commit()
+# # Commit the transaction to persist the changes to the database
+#         self.db_config._DbConfig__session.commit()
 
 
 

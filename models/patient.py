@@ -14,6 +14,7 @@ class Patient(BaseModel):
     history = Column(String(1024), nullable=False)
 
     user = relationship('User', back_populates='patient')
+    bookings = relationship('Booking', back_populates='patient')
 
 
     def __init__(self, *args, **kwargs):

@@ -17,6 +17,8 @@ class Therapist(BaseModel):
     availability = Column(Boolean(), nullable=False, default=True)
 
     user = relationship('User', back_populates='therapist')
+    sessions = relationship('Session', back_populates='therapist')
+    bookings = relationship('Booking', back_populates='therapist')
 
 
     def __init__(self, *args, **kwargs):
