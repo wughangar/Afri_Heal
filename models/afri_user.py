@@ -3,24 +3,31 @@
 User model
 """
 
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel
 from hashlib import md5
+from models.database import db
+#from models.therapist import Therapist
+#from models.patient import Patient
 
-
-class User(BaseModel):
+class User(db.Model):
     __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     phone = Column(Integer, nullable=False, unique=True)
     email = Column(String(128),nullable=False, unique=True)
     password = Column(String(60), nullable=False)
     role = Column(String(60), nullable=False)
+    patient_id = Column(String(60), ForeignKey('patients.id'))
+    therapist_id = Column(String(60), ForeignKey('therapists.id'))
+    #therapist = relationship('Therapist',uselist=False, back_populates='user')
+    #patient = relationship('Patient', uselist=False, back_populates='user')
+    #therapist = relationship('Therapist', back_populates='user', foreign_keys=[therapist_id])
 
-    therapist = relationship('Therapist',uselist=False, back_populates='user')
-    patient = relationship('Patient', uselist=False, back_populates='user')
-
+    therapist = relationship('Therapist', back_populates='user')
+    patient = relationship('Patient', back_populates='user')
 
     def __init__(self, *args, **kwargs):
         """

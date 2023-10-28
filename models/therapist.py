@@ -3,20 +3,21 @@
 Therapist model
 """
 
-from sqlalchemy import Column, String, Boolean, ForeignKey
+from sqlalchemy import Column, String, Boolean, ForeignKey, Integer
 from models.base_model import BaseModel
-from models.afri_user import User
 from sqlalchemy.orm import relationship
-
+from models.afri_user import User
 
 class Therapist(BaseModel):
     __tablename__ = "therapists"
-    user_id = Column(String(60), ForeignKey('users.id'), unique=True)
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), unique=True)
     specialization = Column(String(128), nullable=False)
     experience = Column(String(128), nullable=False)
     availability = Column(Boolean(), nullable=False, default=True)
 
-    user = relationship('User', back_populates='therapist')
+
+    user = relationship('User', back_populates='therapist', foreign_keys=[user_id])
     sessions = relationship('Session', back_populates='therapist')
     bookings = relationship('Booking', back_populates='therapist')
 
