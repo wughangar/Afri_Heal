@@ -3,14 +3,9 @@
 datatabase configuration
 """
 
-from models.afri_user import User
-from models.patient import Patient
+from models.user import User
 from models.therapist import Therapist
-from models.booking import Booking
-from models.session import Session
-from models.category import Category
 from models.review import Review
-from models.payment import Payment
 from models.base_model import Base
 
 from sqlalchemy import create_engine
@@ -20,8 +15,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 # Base = declarative_base()
 
 classes = {
-    "User": User, "Patient": Patient, "Therapist": Therapist, "Booking": Booking,
-    "Session": Session, "Category": Category, "Review": Review, "Payment": Payment
+    "User": User, "Therapist": Therapist, "Review": Review
 }
 
 class DbConfig:

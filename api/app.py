@@ -1,10 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from models.engine.db_config import DbConfig
+# from models.engine.db_config import DbConfig
 from models.database import db
-from models.therapist import Therapist
-from models.patient import Patient
-from models.afri_user import User
+# from models.therapist import Therapist
+from models.user import User
 from sqlalchemy.orm import sessionmaker
 
 
