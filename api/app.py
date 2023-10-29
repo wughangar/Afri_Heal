@@ -1,13 +1,21 @@
 from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
 from models.engine.db_config import DbConfig
 from models.database import db
 from models.therapist import Therapist
 from models.patient import Patient
 from models.afri_user import User
+from sqlalchemy.orm import sessionmaker
+
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Loki1994@localhost/afri-heal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Loki1994@localhost/afriheal'
+db = SQLAlchemy(app)
+#db.init_app(app)
+
+Session = sessionmaker(bind=db)
+
 
 @app.route('/')
 def afri_web():
@@ -18,8 +26,10 @@ def get_users():
     """
     retrive a list of of users(Get method)
     """
-    users = User.query.all()
+    session = Session()
+    users = session.query(User).all()
     user_list = [user.to_dict() for user in users]
+    session.close()
     return jsonify(user_list)
 
 @app.route('/api/users', methods=['POST'])
@@ -49,9 +59,6 @@ def update_user(user_id):
         setattr(user, key, value)
     db.session.commit()
     return jsonify(user.to_dict())
-
-#initialize the database
-db.init_app(app)
 
 
 if __name__ == '__main__':

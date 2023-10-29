@@ -14,7 +14,7 @@ class Patient(BaseModel):
     user_id = Column(Integer, ForeignKey('users.id'), unique=True)
     history = Column(String(1024), nullable=False)
 
-    user = relationship('User', back_populates='patient')
+    user = relationship('User', back_populates='patient', uselist=False)
     bookings = relationship('Booking', back_populates='patient')
 
 

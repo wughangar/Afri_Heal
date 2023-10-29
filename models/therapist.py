@@ -16,8 +16,7 @@ class Therapist(BaseModel):
     experience = Column(String(128), nullable=False)
     availability = Column(Boolean(), nullable=False, default=True)
 
-
-    user = relationship('User', back_populates='therapist', foreign_keys=[user_id])
+    user = relationship('User', back_populates='therapist', uselist=False)
     sessions = relationship('Session', back_populates='therapist')
     bookings = relationship('Booking', back_populates='therapist')
 
