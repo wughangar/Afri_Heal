@@ -25,8 +25,8 @@ class User(BaseModel):
     patient_id = Column(Integer, ForeignKey('patients.id'))
     therapist_id = Column(Integer, ForeignKey('therapists.id'))
 
-    therapist = relationship('Therapist', back_populates='user', uselist=False)
-    patient = relationship('Patient', back_populates='user', uselist=False)
+    therapist = relationship('Therapist', back_populates='user', uselist=False, foreign_keys=[therapist_id])
+    patient = relationship('Patient', back_populates='user', uselist=False, foreign_keys=[patient_id])
 
     def __init__(self, *args, **kwargs):
         """
