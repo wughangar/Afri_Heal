@@ -57,28 +57,28 @@ class BaseModel(Base):
         """
         return"[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id, self.__dict__)
     
-    # def __dict__(self, save_fs=None):
-    #     """
-    #     convert an instance of a class into a dictionary representation
-    #     allows objects to be easily converted into a format suitable for purposes like:
-    #     storage, transmission and ensuring security
-    #     """
-    #     new_dict = self.__dict__.copy()
-    #     if "created_at" in new_dict:
-    #         new_dict["created_at"] = new_dict["created_at"].strftime(time)
-    #     if "updated_at" in new_dict:
-    #         new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
-    #     new_dict["__class__"] = self.__class__.__name__
+    def __custom_dict__(self, save_fs=None):
+        """
+        convert an instance of a class into a dictionary representation
+        allows objects to be easily converted into a format suitable for purposes like:
+        storage, transmission and ensuring security
+        """
+        new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+        new_dict["__class__"] = self.__class__.__name__
 
-    #     # Remove sqlachemy key, not needed for serialization 
-    #     if "_sa_instance_state" in new_dict:
-    #         del new_dict["_sa_instance_state"]
+        # Remove sqlachemy key, not needed for serialization 
+        if "_sa_instance_state" in new_dict:
+            del new_dict["_sa_instance_state"]
 
-    #     # Remove password before serialization to ensure security
-    #     if save_fs is None:
-    #         if "password" in new_dict:
-    #             del new_dict["password"]
-    #     return new_dict
+        # Remove password before serialization to ensure security
+        if save_fs is None:
+            if "password" in new_dict:
+                del new_dict["password"]
+        return new_dict
     
 
     def save(self):

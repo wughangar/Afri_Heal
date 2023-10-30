@@ -1,15 +1,18 @@
+#!/usr/bin/python3
+
+
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-# from models.engine.db_config import DbConfig
+from models.engine.db_config import DbConfig
 from models.database import db
-# from models.therapist import Therapist
+from models.therapist import Therapist
 from models.user import User
 from sqlalchemy.orm import sessionmaker
 
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Loki1994@localhost/afriheal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Saisa#Root@localhost/afriheal'
 db = SQLAlchemy(app)
 #db.init_app(app)
 
@@ -25,11 +28,12 @@ def get_users():
     """
     retrive a list of of users(Get method)
     """
-    session = Session()
-    users = session.query(User).all()
-    user_list = [user.to_dict() for user in users]
-    session.close()
-    return jsonify(user_list)
+    # session = Session()
+    with Session() as session:
+        users = session.query(User).all()
+        user_list = [user.__custom_dict__() for user in users]
+        session.close()
+        return jsonify(user_list)
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
@@ -37,7 +41,7 @@ def create_user():
     new_user = User(**data)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify(new_user.to_dict()), 201
+    return jsonify(new_user.__custom_dict__()), 201
 
 @app.route('/api/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
