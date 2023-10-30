@@ -13,7 +13,7 @@ db = SQLAlchemy()
 #from models.therapist import Therapist
 #from models.patient import Patient
 
-class User(BaseModel):
+class User(db.Model):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     first_name = Column(String(128), nullable=False)
