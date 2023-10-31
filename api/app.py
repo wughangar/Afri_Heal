@@ -11,17 +11,55 @@ from models.review import Review
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.exc import DatabaseError
+from flask_login import LoginManager
+import os
+from flask import render_template, url_for, redirect, flash
+from .forms import RegistrationForm
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Loki1995@localhost/afriheal'
+secret_key = os.urandom(24)
+app.config['SECRET_KEY'] = secret_key
+
 db = SQLAlchemy(app)
 #db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 
 Session = sessionmaker(bind=db)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
+# register route
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created!', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
 
+# log in route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('index'))  # Replace 'index' with your app's main page
+        else:
+            flash('Login unsuccessful. Please check email and password.', 'danger')
+    return render_template('login.html', form=form)
 @app.route('/')
 def afri_web():
     return 'We are building Afri-world1'
