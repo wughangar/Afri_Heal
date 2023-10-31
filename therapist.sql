@@ -1,0 +1,14 @@
+CREATE TABLE therapists (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(128) NOT NULL,
+    last_name VARCHAR(128) NOT NULL,
+    phone INT NOT NULL UNIQUE,
+    email VARCHAR(128) NOT NULL UNIQUE,
+    password VARCHAR(60) NOT NULL,
+    specialization VARCHAR(128) NOT NULL,
+    experience VARCHAR(128) NOT NULL,
+    availability BOOLEAN NOT NULL DEFAULT 1
+);
+ALTER TABLE therapists
+ADD COLUMN created_at DATETIME DEFAULT NOW(),
+ADD COLUMN updated_at DATETIME DEFAULT NOW();

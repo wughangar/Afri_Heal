@@ -15,7 +15,18 @@ class Therapist(BaseModel):
     password = Column(String(60), nullable=False)
     specialization = Column(String(128), nullable=False)
     experience = Column(String(128), nullable=False)
-    availability = Column(Boolean(), nullable=False, default=True)
+    availability = Column(String, nullable=True)
+
+    def to_dict(self):
+        return {
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'phone': self.phone,
+                'email': self.email,
+                'specialization': self.specialization,
+                'experience': self.experience,
+                'availability': self.availability
+                }
 
 
     def __init__(self, *args, **kwargs):

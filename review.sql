@@ -1,0 +1,11 @@
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id VARCHAR(60),
+    therapist_id VARCHAR(60),
+    rating INT,
+    date DATETIME,
+    comments VARCHAR(1024),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
