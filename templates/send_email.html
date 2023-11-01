@@ -1,0 +1,16 @@
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.recipient_email.label }}
+        {{ form.recipient_email(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.subject.label }}
+        {{ form.subject(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.message.label }}
+        {{ form.message(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+</form>

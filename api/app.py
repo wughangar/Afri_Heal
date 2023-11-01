@@ -14,7 +14,12 @@ from sqlalchemy.exc import DatabaseError
 from flask_login import LoginManager
 import os
 from flask import render_template, url_for, redirect, flash
-from .forms import RegistrationForm
+from forms.registration_form import RegistrationForm
+from flask_login import login_required
+
+#from flask_mail import Mail, Message
+#import sendgrid
+#from sendgrid.helpers.mail import Mail, From, To, Subject, PlainTextContent, HtmlContent
 
 
 app = Flask(__name__, template_folder='templates')
@@ -34,6 +39,13 @@ Session = sessionmaker(bind=db)
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# user profile
+@app.route('/user_profile')
+@login_required
+def user_profile():
+    # Only authenticated users can access this route
+    return 'User Profile Page'
 
 # register route
 @app.route('/register', methods=['GET', 'POST'])
@@ -163,7 +175,20 @@ def update_review(review_id):
     for key, value in data.items():
         setattr(review, key, value)
     db.session.commit()
-    return jsonify(review.to_dict())
+# Create a route for posting reviews
+@app.route('/post_review', methods=['POST'])
+def post_review():
+    # Get the review data from the form submission
+    rating = request.form.get('rating')
+    comments = request.form.get('comments')
+    therapist_id = request.form.get('therapist_id')  # Adjust this based on your form
+
+    # Create a new review
+    new_review = Review(rating=rating, comments=comments, therapist_id=therapist_id, patient_id=current_user.id)
+    db.session.add(new_review)
+    db.session.commit()
+
+    return redirect(url_for('therapist_profile', therapist_id=therapist_id))
 
 #delete review
 #works
@@ -185,6 +210,42 @@ def create_therapist():
     db.session.add(new_therapist)
     db.session.commit()
     return jsonify(new_therapist.id), 201
+
+# list all therapists
+@app.route('/therapists')
+def all_therapists():
+    therapists = db.session.query(Therapist).all()
+    return render_template('all_therapists.html', therapists=therapists)
+
+# display therapits profile
+@app.route('/therapists/<string:therapist_id>')
+def therapist_profile(therapist_id):
+    therapist = db.session.query(Therapist).get(therapist_id)
+    if not therapist:
+        return jsonify({'error': 'Therapist not found'}), 404
+    # Render a template to display the therapist's information
+    return render_template('therapist_profile.html', therapist=therapist)
+
+
+# search for therapit based on criteria
+@app.route('/search', methods=['GET'])
+def search_therapists():
+    specialization = request.args.get('specialization')
+    availability = request.args.get('availability')
+
+    # Query your database based on the specialization and availability
+    therapists = db.session.query(Therapist)
+
+    if specialization:
+        therapists = therapists.filter(Therapist.specialization == specialization)
+
+    if availability:
+        therapists = therapists.filter(Therapist.availability == availability)
+
+    therapists = therapists.all()
+
+    # Pass the filtered therapists to your template for rendering
+    return render_template('search_results.html', therapists=therapists)
 
 # list therapists
 # works

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Therapist Profile</title>
+</head>
+<body>
+    <h1>Therapist Profile</h1>
+    <p>Therapist Name: {{ therapist.first_name }} {{ therapist.last_name }}</p>
+    <p>Email: {{ therapist.email }}</p>
+    <p>Specialization: {{ therapist.specialization }}</p>
+    <p>Experience: {{ therapist.experience }}</p>
+    <p>Availability: {{ therapist.availability }}</p>
+
+    <a href="/therapists/{{ therapist.id }}">View Profile</a>
+    <a href="/post_review?therapist_id={{ therapist.id }}">Post a Review</a>
+</body>
+</html>

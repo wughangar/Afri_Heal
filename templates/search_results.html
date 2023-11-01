@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <!-- Display filtered therapist results -->
+    {% for therapist in filtered_therapists %}
+        <p>Therapist Name: {{ therapist.first_name }} {{ therapist.last_name }}</p>
+        <p>Email: {{ therapist.email }}</p>
+        <p>Specialization: {{ therapist.specialization }}</p>
+        <p>Availability: {{ therapist.availability }}</p>
+    {% endfor %}
+</body>
+</html>

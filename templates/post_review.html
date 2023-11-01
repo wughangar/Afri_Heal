@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Review</title>
+</head>
+<body>
+    <h1>Post Review</h1>
+    <form method="POST" action="/post_review">
+        <label for="rating">Rating:</label>
+        <input type="number" name="rating" min="1" max="5" required>
+        <label for="comments">Comments:</label>
+        <textarea name="comments" required></textarea>
+        <input type="hidden" name="therapist_id" value="{{ therapist.id }}">
+        <button type="submit">Submit Review</button>
+    </form>
+</body>
+</html>
