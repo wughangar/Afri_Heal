@@ -15,6 +15,7 @@ from flask_login import LoginManager
 import os
 from flask import render_template, url_for, redirect, flash
 from forms.registration_form import RegistrationForm
+from forms.login_form import LoginForm
 from flask_login import login_required
 #from flask import Blueprint
 
@@ -25,6 +26,8 @@ from flask_login import login_required
 
 
 app = Flask(__name__, template_folder='templates')
+app.config['TESTING'] = True
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Loki1995@localhost/afriheal'
 secret_key = os.urandom(24)
@@ -162,6 +165,7 @@ def get_reviews():
 #get review
 @app.route('/api/reviews/<string:review_id>', methods=['GET'])
 def get_review(review_id):
+    review = db.session.query(Review).get(review_id)
     if not review:
         return jsonify({'error': 'Review not found'}), 404
     return jsonify(review.__custom_dict__())
@@ -177,6 +181,7 @@ def update_review(review_id):
     for key, value in data.items():
         setattr(review, key, value)
     db.session.commit()
+    return jsonify(review.__custom_dict__())
 # Create a route for posting reviews
 @app.route('/post_review', methods=['POST'])
 def post_review():
