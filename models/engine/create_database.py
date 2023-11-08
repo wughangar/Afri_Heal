@@ -5,7 +5,7 @@ from models.user import User
 from models.therapist import Therapist
 from models.review import Review
 
-database_url = 'mysql://root:Loki1994@localhost/afriheal'
+database_url = 'mysql://LOKI:loki_pwd@localhost/afriheal'
 
 engine = create_engine(database_url)
 Session = sessionmaker(bind=engine)

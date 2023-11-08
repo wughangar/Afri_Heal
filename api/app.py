@@ -3,7 +3,7 @@
 
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from models.engine.db_config import DbConfig
+#from models.engine.db_config import DbConfig
 #from models.database import db
 from models.therapist import Therapist
 from models.user import User
@@ -29,7 +29,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['TESTING'] = True
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Loki1995@localhost/afriheal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://LOKI:loki_pwd@localhost/afriheal'
 secret_key = os.urandom(24)
 app.config['SECRET_KEY'] = secret_key
 
@@ -308,5 +308,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
 
-    app.run(debug=True, port=5000)
-
+    app.run(host='0.0.0.0', port=5001)

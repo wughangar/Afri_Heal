@@ -33,7 +33,7 @@ class User(db.Model):
                 'email': self.email,
                 }
 # Configure your database connection URL
-DB_URL = 'mysql://root:Loki1994@localhost/afriheal'
+DB_URL = 'mysql://LOKI:loki_pwd@localhost/afriheal'
 
 # Create the database engine
 engine = create_engine(DB_URL)
