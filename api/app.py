@@ -16,6 +16,8 @@ import os
 from flask import render_template, url_for, redirect, flash
 from forms.registration_form import RegistrationForm
 from flask_login import login_required
+#from flask import Blueprint
+
 
 #from flask_mail import Mail, Message
 #import sendgrid
@@ -300,6 +302,6 @@ def get_therapist_email(therapist_id):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-                        
-    app.run(debug=True)
+
+    app.run(debug=True, port=5000)
 
