@@ -1,36 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration form</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <h1>Register</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.csrf_token }}
-        <div>
-            {{ form.first_name.label }}
-            {{ form.first_name }}
+    <div class="container">
+        <div class="login-link">
+            <div class="logo">
+                <i class='bx bx-pencil' ></i>
+                <span class="text">Logo name</span>
+            </div>
+            <p class="side-big-heading">Already a member ?</p>
+            <p class="primary-bg-text">To keep track on your dashboard please login with your personal info</p>
+            <a href="login" class="loginbtn">Login</a>
         </div>
-        <div>
-            {{ form.last_name.label }}
-            {{ form.last_name }}
-        </div>
-        <div>
-            {{ form.email.label }}
-            {{ form.email }}
-        </div>
-        <div>
-            {{ form.password.label }}
-            {{ form.password }}
-        </div>
-        <div>
-            {{ form.confirm_password.label }}
-            {{ form.confirm_password }}
-        </div>
-        <div>
-            {{ form.submit }}
-        </div>
-    </form>
+        <form action="/register" method="POST" class="signup-form-container">
+            <p class="big-heading">Create Account</p>
+            <div class="progress-bar">
+                <div class="stage">
+                    <p class="tool-tip">Personal info</p>
+                    <p class="stageno stageno-1">1</p>
+                </div>
+                <div class="stage">
+                    <p class="tool-tip">Contact info</p>
+                    <p class="stageno stageno-2">2</p>
+                </div>
+                <div class="stage">
+                    <p class="tool-tip">Final Submit</p>
+                    <p class="stageno stageno-3">3</p>
+                </div>
+            </div>
+            <div class="signup-form-content">
+                <div class="stage1-content">
+                    <div class="button-container">
+                        <div class="text-fields fname">
+                            <label for="fname"><i class='bx bx-user' ></i></label>
+                            <input type="text" name="fname" id="fname" placeholder="Enter your first name">
+                        </div>
+                        <div class="text-fields lname">
+                            <label for="lname"><i class='bx bx-user' ></i></label>
+                            <input type="text" name="lname" id="lname" placeholder="Enter your last name">
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="text-fields dob">
+                            <input type="date" name="dob" id="dob">
+                        </div>
+                        <div class="gender-selection">
+                            <p class="field-heading">Gender : </p>
+                            <label for="male">
+                                <input type="radio" name="gender" id="male">Male
+                            </label>
+                            <label for="female"><input type="radio" name="gender" id="female">Female</label>
+                        </div>
+                    </div>
+                    <div class="pagination-btns">
+                        <input type="button" value="Next" class="nextPage stagebtn1b" onclick="stage1to2()">
+                    </div>
+                </div>
+               <div class="stage2-content">
+               <div class="button-container">
+                <div class="text-fields phone">
+                    <label for="phone"><i class='bx bx-phone' ></i></label>
+                    <input type="text" name="phone" id="phone" placeholder="phone number">
+                </div>
+                <div class="text-fields email">
+                    <label for="email"><i class='bx bx-envelope' ></i></label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email id">
+                </div>
+               </div>
+                <div class="button-container">
+                    <div class="text-fields password">
+                        <label for="password"><i class='bx bx-lock-alt' ></i></label>
+                        <input type="password" name="password" id="password" placeholder="Enter password">
+                    </div>
+                    <label class="role-selection" for="role">  Role :  </label>
+                    <select class="role" name="role" required>
+                      <option value="doctor">Therapist</option>
+                      <option value="patient">Patient</option>
+                    </select>
+
+                </div>
+                <div class="pagination-btns">
+                    <input type="button" value="Previous" class="previousPage stagebtn2a" onclick="stage2to1()">
+                    <input type="button" value="Next" class="nextPage stagebtn2b" onclick="stage2to3()">
+                </div>
+               </div>
+               <div class="stage3-content">
+                <div class="tc-container">
+                    <label for="tc" class="tc">
+                        <input type="checkbox" name="tc" id="tc" required>
+                        By submiting your details, you agree to the <a href="#"> terms and conditions. </a>
+                    </label>
+                </div>
+                <div class="pagination-btns">
+                    <input type="button" value="Previous" class="previousPage stagebtn3a" onclick="stage3to2()">
+                    <input type="submit" value="Submit" class="nextPage stagebtn3b">
+                </div>
+               </div>
+            </div>
+        </form>
+    </div>
 </body>
+<script>
+    let signupContent1 = document.querySelector(".stage1-content"),
+        signupContent2 = document.querySelector(".stage2-content"),
+        signupContent3 = document.querySelector(".stage3-content");
+
+    signupContent2.style.display = "none";
+    signupContent3.style.display = "none";
+
+    function stage1to2(){
+        validateAndMoveToNextStage(signupContent1, signupContent2);
+    }
+
+    function stage2to1(){
+        signupContent1.style.display = "block";
+        signupContent3.style.display = "none";
+        signupContent2.style.display = "none";
+    }
+
+    function stage2to3(){
+        validateAndMoveToNextStage(signupContent2, signupContent3);
+    }
+
+    function stage3to2(){
+        signupContent1.style.display = "none";
+        signupContent3.style.display = "none";
+        signupContent2.style.display = "block";
+    }
+
+    function validateAndMoveToNextStage(currentStage, nextStage) {
+        // Validate the form fields of the current stage
+        if (currentStage === signupContent1) {
+            const fname = document.getElementById("fname").value;
+            const lname = document.getElementById("lname").value;
+            const dob = document.getElementById("dob").value;
+            const gender = document.querySelector('input[name="gender"]:checked');
+
+            if (fname === "" || lname === "" || dob === "" || gender === null) {
+                alert("Please fill in all fields.");
+                return;
+            }
+        } else if (currentStage === signupContent2) {
+            const phone = document.getElementById("phone").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (phone === "" || email === "" || password === "") {
+                alert("Please fill in all fields.");
+                return;
+            }
+        }
+
+        currentStage.style.display = "none";
+        nextStage.style.display = "block";
+    }
+
+    document.querySelector(".nextPage.stagebtn1b").addEventListener("click", () => {
+        stage1to2();
+    });
+
+    document.querySelector(".previousPage.stagebtn2a").addEventListener("click", () => {
+        stage2to1();
+    });
+
+    document.querySelector(".nextPage.stagebtn2b").addEventListener("click", () => {
+        stage2to3();
+    });
+
+    document.querySelector(".previousPage.stagebtn3a").addEventListener("click", () => {
+        stage3to2();
+    });
+</script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </html>

@@ -1,24 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.csrf_token }}
-        <div>
-            {{ form.email.label }}
-            {{ form.email }}
+    <div class="container">
+        <div class="login-link">
+            <div class="logo">
+                <i class='bx bx-pencil' ></i>
+                <span class="text"><a href="/">Afri Heal</a></span>
+            </div>
+            <p class="side-big-heading">Create your account</p>
+            <p class="primary-bg-text">To keep track on your dashboard please login with your personal info</p>
+            <a href="signup" class="loginbtn">Register now</a>
         </div>
-        <div>
-            {{ form.password.label }}
-            {{ form.password }}
-        </div>
-        <div>
-            {{ form.submit }}
-        </div>
-    </form>
+        <form action="/login" method="POST" class="signup-form-container">
+          <p class="big-heading">Login to your account</p>
+          <div class="login-form-contents">
+            <div class="text-fields email">
+              <label for="email"><i class='bx bx-envelope'></i></label>
+              <input type="email" name="email" id="email" placeholder="Enter your email id">
+            </div>
+           <div class="text-fields password">
+             <label for="password"><i class='bx bx-lock-alt'></i></label>
+             <input type="password" name="password" id="password" placeholder="Enter password">
+           </div>
+          </div>
+          <input type="submit" value="Login" class="nextPage">
+	  <div class="error-message">
+	    {% if error_message %}
+            {{ error_message }}
+	    {% endif %}
+	  </div>
+        </form>
 </body>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </html>

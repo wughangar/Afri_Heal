@@ -2,7 +2,7 @@
 
 
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column
 #from models.engine.db_config import DbConfig
 #from models.database import db
 from models.therapist import Therapist
@@ -16,7 +16,8 @@ import os
 from flask import render_template, url_for, redirect, flash
 from forms.registration_form import RegistrationForm
 from forms.login_form import LoginForm
-from flask_login import login_required
+from flask_login import login_required, login_user
+
 #from flask import Blueprint
 
 
@@ -25,7 +26,9 @@ from flask_login import login_required
 #from sendgrid.helpers.mail import Mail, From, To, Subject, PlainTextContent, HtmlContent
 
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='../templates',
+            static_url_path='/assets',
+            static_folder='../templates/assets')
 app.config['TESTING'] = True
 
 
@@ -57,7 +60,10 @@ def user_profile():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, password=form.password.data)
+        user = User(first_name=form.first_name.data,
+                    last_name=form.last_name.data, email=form.email.data,
+                    password=form.password.data, gender=form.gender.data,
+                    date_of_birth=form.date_of_birth.data)
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created!', 'success')
@@ -79,7 +85,7 @@ def login():
     return render_template('login.html', form=form)
 @app.route('/')
 def afri_web():
-    return 'We are building Afri-world1'
+    return render_template('index.html')
 
 #doesnt not work yet
 @app.route('/api/users', methods=['GET'])

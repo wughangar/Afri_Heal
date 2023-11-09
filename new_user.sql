@@ -11,7 +11,9 @@ CREATE TABLE users (
     last_name VARCHAR(128) NOT NULL,
     phone INT NOT NULL UNIQUE,
     email VARCHAR(128) NOT NULL UNIQUE,
-    password VARCHAR(60) NOT NULL
+    password VARCHAR(60) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    date_of_birth DATE NOT NULL
 );
 CREATE TABLE therapists (
     id INT AUTO_INCREMENT PRIMARY KEY,
