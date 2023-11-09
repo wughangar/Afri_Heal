@@ -1,0 +1,6 @@
+DROP DATABASE IF EXISTS AH_DB;
+CREATE DATABASE IF NOT EXISTS AH_DB;
+CREATE USER IF NOT EXISTS 'LOKI'@'localhost' IDENTIFIED BY 'loki_pwd';
+GRANT USAGE ON *.* TO 'LOKI'@'localhost';
+GRANT ALL PRIVILEGES ON  `AH_DB`.* TO 'LOKI'@'localhost';
+GRANT SELECT ON `performance_schema`.* TO 'LOKI'@'localhost';

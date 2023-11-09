@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Therapist Information</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"> <!-- Include your CSS file here -->
+    <style>
+        /* CSS for field names */
+        .field-name {
+            color: #696cff;
+        }
+
+        /* CSS for the form container */
+        .form-container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        /* CSS for text input fields */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* CSS for select input */
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* CSS for buttons */
+        .button {
+            background-color: #696cff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Therapist Information</h1>
+        <form action="/therapist" method="POST">
+            <label for="experience" class="field-name">Experience in Years:</label>
+            <input type="number" name="experience" id="experience" required>
+
+            <label for="specialization" class="field-name">Specialization:</label>
+            <input type="text" name="specialization" id="specialization" required>
+
+            <label for="availability" class="field-name">Availability:</label>
+            <select name="availability" id="availability" required>
+                <option value="full-time">Full Time</option>
+                <option value="part-time">Part Time</option>
+                <option value="weekends">Weekends</option>
+            </select>
+
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
