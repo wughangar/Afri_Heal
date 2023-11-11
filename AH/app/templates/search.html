@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Therapists</title>
+</head>
+<body>
+    <h1>Search for Therapists</h1>
+    <form method="POST" action="/search">
+        <label for="specialization">Specialization:</label>
+        <input type="text" name="specialization" id="specialization" required>
+        <br>
+        <label for="availability">Availability:</label>
+        <input type="text" name="availability" id="availability" required>
+        <br>
+        <button type="submit">Search</button>
+    </form>
+    <hr>
+    <h2>Search Results:</h2>
+    <ul>
+        {% for therapist in therapists %}
+            <li>{{ therapist.user.first_name }} {{ therapist.user.last_name }} - Specialization: {{ therapist.specialization }}, Availability: {{ therapist.availability }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

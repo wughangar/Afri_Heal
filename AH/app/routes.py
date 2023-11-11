@@ -7,7 +7,7 @@ from app.models import User, Therapist
 from passlib.hash import bcrypt_sha256
 import uuid
 from sqlalchemy.orm import joinedload
-
+from functools import wraps
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def welcome():
@@ -122,3 +122,58 @@ def signup_stg2():
         db_session.close()
 
         return 'Details added'
+
+@app.route('/search', methods=['GET', 'POST'], strict_slashes=False)
+def search_therapists():
+    if request.method == 'POST':
+        specialization = request.form['specialization']
+        availability = request.form['availability']
+        db_session = Session()
+
+        therapists = db_session.query(Therapist).filter(
+                Therapist.specialization.ilike(f"%{specialization}%"),
+                Therapist.availability.ilike(f"%{availability}%")
+        ).options(joinedload(Therapist.user)).all()
+        db_session.close()
+        return render_template('search.html', therapists=therapists)
+    return render_template('search.html', therapists=[])
+
+def therapist_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        user_id = session['user_id']
+        db_session = Session()
+        user = db_session.query(User).filter_by(id=user_id).first()
+        db_session.close()
+        if user and user.role == 'therapist':
+            return func(*args, **kwargs)
+        return "You are not authorized to access this page."
+    return decorated_function
+
+@app.route('/therapist/dashboard', methods=['GET', 'POST'], strict_slashes=False)
+@therapist_required
+def therapist_dashboard():
+    if request.method == 'POST':
+        new_availability = request.form.get('availability')
+        therapist_id = session.get('user_id')
+        db_session = Session()
+        therapist = db_session.query(Therapist).filter_by(user_id=therapist_id).first()
+        therapist.availability = new_availability
+        db_session.commit()
+        db_session.close()
+
+    therapist_id = session.get('user_id')
+    db_session = Session()
+    therapist = db_session.query(Therapist).filter_by(user_id=therapist_id).first()
+    db_session.close()
+    return render_template('therapist_dashboard.html', therapist=therapist)
+
+
+# log out
+@app.route('/logout', methods=['GET'], strict_slashes=False)
+def logout():
+    if session.get('logged_in'):
+        session.clear()
+    return redirect(url_for('welcome'))

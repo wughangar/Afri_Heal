@@ -60,14 +60,23 @@
                     <strong>Experience:</strong> {{ therapist.experience_in_years }} years<br>
                     <strong>Specialization:</strong> {{ therapist.specialization }}<br>
                     <strong>Availability:</strong> {{ therapist.availability }}
+		    <button class="email-button" data-email="{{ therapist.user.email }}">Contact</button>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No therapists found.</p>
     {% endif %}
+    <a href="/search">Search for Therapists</a>
 </body>
 <script>
-    // Add your JavaScript here if needed
+	document.querySelectorAll('.email-button').forEach(function(button) {
+		button.addEventListener('click', function() {
+            var therapistEmail = this.getAttribute('data-email');
+            var mailtoLink = 'mailto:' + therapistEmail;
+            window.location.href = mailtoLink;
+		});
+	});
 </script>
+<a href="/logout">Log Out</a>
 </html>

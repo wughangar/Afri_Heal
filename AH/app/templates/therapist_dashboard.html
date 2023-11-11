@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Therapist Dashboard</title>
+    <style>
+      body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #696cff;
+            margin-left: 5%;
+            width: 100%;
+        }
+     /* Container for the dashboard */
+        .dashboard-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styles for the welcome message */
+        .welcome-message {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+        }
+    /* Styles for the availability form */
+        .availability-form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+	button {
+            background-color: #696cff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Logout link styles */
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Therapist Dashboard</h1>
+    <p>Welcome, {{ therapist.user.first_name }} {{ therapist.user.last_name }}!</p>
+    
+    <h2>Edit Availability</h2>
+    <form action="/therapist/edit_availability" method="POST">
+        <label for="availability">Availability:</label>
+        <select name="availability" id="availability" required>
+            <option value="full-time">Full Time</option>
+            <option value="part-time">Part Time</option>
+            <option value="weekends">Weekends</option>
+        </select>
+        <button type="submit">Save</button>
+    </form>
+
+    <!-- You can add other therapist information and features here -->
+
+    <a href="/logout">Logout</a>
+</body>
+</html>
