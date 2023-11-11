@@ -77,7 +77,7 @@
     <p>Welcome, {{ therapist.user.first_name }} {{ therapist.user.last_name }}!</p>
     
     <h2>Edit Availability</h2>
-    <form action="/therapist/edit_availability" method="POST">
+    <form action="/therapist/edit_availability" method="PUT">
         <label for="availability">Availability:</label>
         <select name="availability" id="availability" required>
             <option value="full-time">Full Time</option>

@@ -68,17 +68,19 @@ def login():
             if bcrypt_sha256.verify(password, password_hash):
                 session['logged_in'] = True
                 session['user_id'] = user.id
-                db_session.close()
+ #               db_session.close()
                 if user.role == 'patient':
                     return redirect(url_for('home'))
                 else:
+                    #db_session.add(therapist)
                     therapist = db_session.query(Therapist).filter_by(
                         user_id=session['user_id']).first()
-                    db_session.close()
+                    #db_session.add(therapist)
+                    #db_session.close()
                     if not therapist:
                         return render_template('therapist_info.html')
                     else:
-                        return "Logged in as therapist"
+                        return render_template('therapist_dashboard.html', therapist=therapist)
             else:
                 db_session.close()
                 error_message = "Wrong username or password"
@@ -121,7 +123,7 @@ def signup_stg2():
         db_session.commit()
         db_session.close()
 
-        return 'Details added'
+        return render_template('therapist_dashboard.html')
 
 @app.route('/search', methods=['GET', 'POST'], strict_slashes=False)
 def search_therapists():
@@ -152,14 +154,15 @@ def therapist_required(func):
         return "You are not authorized to access this page."
     return decorated_function
 
-@app.route('/therapist/dashboard', methods=['GET', 'POST'], strict_slashes=False)
-@therapist_required
+@app.route('/therapist/edit_availability', methods=['GET', 'PUT'], strict_slashes=False)
+#@therapist_required
 def therapist_dashboard():
-    if request.method == 'POST':
+    if request.method == 'PUT':
         new_availability = request.form.get('availability')
         therapist_id = session.get('user_id')
-        db_session = Session()
+#        db_session = Session()
         therapist = db_session.query(Therapist).filter_by(user_id=therapist_id).first()
+#         db_session.add(therapist)
         therapist.availability = new_availability
         db_session.commit()
         db_session.close()
@@ -167,6 +170,8 @@ def therapist_dashboard():
     therapist_id = session.get('user_id')
     db_session = Session()
     therapist = db_session.query(Therapist).filter_by(user_id=therapist_id).first()
+    db_session.add(therapist)
+
     db_session.close()
     return render_template('therapist_dashboard.html', therapist=therapist)
 
