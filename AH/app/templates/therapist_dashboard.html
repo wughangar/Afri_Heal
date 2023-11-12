@@ -75,9 +75,9 @@
 <body>
     <h1>Therapist Dashboard</h1>
     <p>Welcome, {{ therapist.user.first_name }} {{ therapist.user.last_name }}!</p>
-    
+
     <h2>Edit Availability</h2>
-    <form action="/therapist/edit_availability" method="PUT">
+    <form action="/therapist/edit_availability" method="POST" enctype="multipart/form-data">
         <label for="availability">Availability:</label>
         <select name="availability" id="availability" required>
             <option value="full-time">Full Time</option>

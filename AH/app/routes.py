@@ -9,6 +9,7 @@ import uuid
 from sqlalchemy.orm import joinedload
 from functools import wraps
 
+
 @app.route('/', methods=['GET'], strict_slashes=False)
 def welcome():
     return render_template('index.html')
@@ -73,14 +74,17 @@ def login():
                     return redirect(url_for('home'))
                 else:
                     #db_session.add(therapist)
-                    therapist = db_session.query(Therapist).filter_by(
-                        user_id=session['user_id']).first()
+                    therapist = db_session.query(Therapist).options(
+                        joinedload(Therapist.user)).filter_by(
+                            user_id=session['user_id']
+).first()
                     #db_session.add(therapist)
                     #db_session.close()
                     if not therapist:
                         return render_template('therapist_info.html')
                     else:
-                        return render_template('therapist_dashboard.html', therapist=therapist)
+                        db_session.close()
+                        return redirect(url_for('therapist_dashboard'))
             else:
                 db_session.close()
                 error_message = "Wrong username or password"
@@ -154,23 +158,23 @@ def therapist_required(func):
         return "You are not authorized to access this page."
     return decorated_function
 
-@app.route('/therapist/edit_availability', methods=['GET', 'PUT'], strict_slashes=False)
+@app.route('/therapist/edit_availability', methods=['GET', 'POST'], strict_slashes=False)
 #@therapist_required
 def therapist_dashboard():
-    if request.method == 'PUT':
+    db_session = Session()
+    therapist_id = session.get('user_id')
+    if request.method == 'POST':
         new_availability = request.form.get('availability')
-        therapist_id = session.get('user_id')
-#        db_session = Session()
+        print(new_availability)
         therapist = db_session.query(Therapist).filter_by(user_id=therapist_id).first()
 #         db_session.add(therapist)
         therapist.availability = new_availability
         db_session.commit()
         db_session.close()
 
-    therapist_id = session.get('user_id')
-    db_session = Session()
-    therapist = db_session.query(Therapist).filter_by(user_id=therapist_id).first()
-    db_session.add(therapist)
+    therapist = db_session.query(Therapist).options(
+        joinedload(Therapist.user)).filter_by(
+            user_id=therapist_id).first()
 
     db_session.close()
     return render_template('therapist_dashboard.html', therapist=therapist)
