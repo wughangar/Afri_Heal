@@ -127,7 +127,7 @@ def signup_stg2():
         db_session.commit()
         db_session.close()
 
-        return render_template('therapist_dashboard.html')
+        return redirect(url_for('therapist_dashboard'))
 
 @app.route('/search', methods=['GET', 'POST'], strict_slashes=False)
 def search_therapists():
