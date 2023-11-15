@@ -27,6 +27,9 @@
 ## About
 
 AfriHeal is a web-based platform that connects individuals to therapists and psychiatrists online. Our mission is to provide a convenient and accessible way for users to access mental health services, whether through in-person sessions or virtual meetings.
+Project deployed link: www.realtrailblazer.tech
+Linkedin blog post: https://www.linkedin.com/pulse/my-adhd-journey-creating-afri-heal-connect-those-need-wughangar-rose-2vqbf/
+
 
 ## Features
 
